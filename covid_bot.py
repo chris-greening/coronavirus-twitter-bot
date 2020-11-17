@@ -30,8 +30,6 @@ class CovidBot:
         current_datetime = datetime.datetime.now()
         self.time = current_datetime.time()
         self.date = current_datetime.date()
-        # hour = (time.replace(second=0, microsecond=0, minute=0, hour=time.hour)
-        #        + datetime.timedelta(hours=time.minute//30))
         self.weekday = self.date.strftime('%A')
 
 if __name__ == '__main__':
