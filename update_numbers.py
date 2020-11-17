@@ -29,13 +29,14 @@ def scrape_worldometers_data(url):
 
 def construct_tweet(data):
     todays_date = datetime.datetime.now().strftime("%A, %m/%d/%Y")
+    new_cases = data.NewCases
     tweet_str = (
-        f"United States - Daily Update\n"
+        "United States - Daily Update\n"
         f"{todays_date}\n\n"
-        f"🤢 Total Infections: {data.TotalCases:,} ({data.NewCases:,})\n"
-        f"⚰️ Total Deaths....: {data.TotalDeaths:,} ({data.NewDeaths:,})\n\n"
-        f"Source: https://www.worldometers.info/coronavirus/country/us/\n"
-        f"Daily update tweeted everyday @8PM EST"
+        f"🤢 Total Infections: {data.TotalCases:,} ({data.NewCases})\n"
+        f"⚰️ Total Deaths....: {data.TotalDeaths:,} (+{int(data.NewDeaths)})\n\n"
+        "Source: https://www.worldometers.info/coronavirus/country/us/\n"
+        "Daily update tweeted everyday @8PM EST"
     )
     return tweet_str
 
@@ -57,8 +58,8 @@ def get_daily_infections_data(url):
     data = list(zip(date, new_infections))
     data = [d for d in data if d[1] != 'null']
     data = [(d[0], int(d[1])) for d in data]
-    df = pd.DataFrame(data)
-    print(df)
+    df = pd.DataFrame(data, columns=["date", "infections"])
+    return df
 
 def tweet_daily_numbers(api, tweet_str):
     api.update_status(tweet_str)
@@ -68,6 +69,6 @@ if __name__ == '__main__':
 
     api = return_api()
     data = scrape_worldometers_data(URL)
-    # tweet_str = construct_tweet(data)
-    # tweet_daily_numbers(api, tweet_str)
-    get_daily_infections_data(URL)
+    tweet_str = construct_tweet(data)
+    tweet_daily_numbers(api, tweet_str)
+    # df = get_daily_infections_data(URL)
