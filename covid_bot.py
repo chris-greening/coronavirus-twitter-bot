@@ -15,7 +15,7 @@ class CovidBot:
 
     def __init__(self):
         self._connect_twitter_api()
-        self._set_datetime_metadata()
+        self.dt = datetime.datetime.now()
 
     def _connect_twitter_api(self):
         """Connect bot to the Twitter API"""
@@ -24,13 +24,6 @@ class CovidBot:
         auth.set_access_token(CovidBot.ACCESS_TOKEN,
                                 CovidBot.ACCESS_TOKEN_SECRET)
         self.api = tweepy.API(auth)
-
-    def _set_datetime_metadata(self):
-        """Set metadata regarding time of day, date, and day of week"""
-        current_datetime = datetime.datetime.now()
-        self.time = current_datetime.time()
-        self.date = current_datetime.date()
-        self.weekday = self.date.strftime('%A')
 
 if __name__ == '__main__':
     covid_bot = CovidBot()
