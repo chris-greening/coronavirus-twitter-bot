@@ -18,6 +18,6 @@ class AutoTweet:
         pass
 
     @classmethod
-    def connect_to_api(cls, api):
+    def connect_bot_api(cls, api):
         """Connect AutoTweetTask to Twitter API"""
         cls.api = api
