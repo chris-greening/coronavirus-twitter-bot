@@ -3,6 +3,8 @@ import os
 
 import tweepy
 
+from auto_tweet import AutoTweet
+
 class CovidBot:
     """
     Twitter bot designed to centralize data and news regarding the
@@ -16,6 +18,7 @@ class CovidBot:
     def __init__(self):
         self._connect_twitter_api()
         self.dt = datetime.datetime.now()
+        AutoTweet.connect_bot_api(self.api)
 
     def _connect_twitter_api(self):
         """Connect bot to the Twitter API"""
