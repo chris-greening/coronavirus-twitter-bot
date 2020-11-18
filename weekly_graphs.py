@@ -70,7 +70,13 @@ def get_daily_infection_plot():
     _create_plot(df)
     img_fpath = _save_plot()
     tweet = Tweet()
-    tweet.attach_text('Daily COVID-19 infections per day')
+    todays_date = datetime.datetime.now().strftime("%m/%d/%Y")
+    tweet_str = (
+        "United States - Infections per Day\n"
+        f"{todays_date}\n"
+        "https://www.worldometers.info/coronavirus/country/us/"
+    )
+    tweet.attach_text(tweet_str)
     tweet.attach_image(img_fpath)
     return tweet
 
