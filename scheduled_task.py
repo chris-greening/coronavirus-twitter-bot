@@ -2,11 +2,12 @@ import datetime
 
 from typing import List
 
-class AutoTweet:
+class ScheduledTask:
     """Scheduled tasks to be performed and then tweeted"""
 
     def __init__(
             self,
+            action,
             weekdays: List[str] = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
             hours: List[int] = tuple(range(0,23)),
             end_of_month: bool = False
@@ -14,6 +15,8 @@ class AutoTweet:
         """
         Parameters
         ----------
+        action
+            Function that handles the action to be taken
         weekdays : List[str]
             Days of the week this task is performed
         hours : List[int]
