@@ -31,7 +31,10 @@ class ScheduledTask:
 
     def execute(self):
         tweet = self.task_function()
-        self.api.update_status(tweet.tweet_text)
+        if tweet.image_filepath != '':
+            self.api.update_with_media(tweet.image_filepath, tweet.tweet_text)
+        else:
+            self.api.update_status(tweet.tweet_text)
 
     def is_scheduled_to_run(self, today_datetime):
         """
