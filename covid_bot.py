@@ -41,4 +41,5 @@ class CovidBot:
         self.api = tweepy.API(auth)
 
 if __name__ == '__main__':
+    # DEBUG = True
     covid_bot = CovidBot()
