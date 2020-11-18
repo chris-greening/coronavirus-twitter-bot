@@ -49,16 +49,17 @@ def _save_plot():
 
 def _create_plot(df):
     x = range(len(df))
+    date = datetime.datetime.now().strftime('%m/%d/%Y')
     # x_recent = range(len(df)-7, len(df))
     plt.style.use("seaborn-darkgrid")
     plt.bar(x, df['infections'], label="Daily infections", color="black", width=1)
     # plt.bar(x_recent, [df['infections'].iloc[i] for i in x_recent])
     plt.plot(x, df['7 day rolling average'], label="7 day rolling average", color="red", linewidth=3)
-    plt.title('Daily infections per Day', fontsize=24)
-    plt.xlabel('Date', fontsize=18)
-    plt.ylabel('Daily infections', fontsize=18)
-    plt.legend(loc="upper left", fontsize=18)
-    plt.xticks(list(range(0, len(df), 50)), [df['date'].iloc[i] for i in range(0, len(df), 50)], rotation=10)
+    plt.title(f'Daily COVID-19 infections as of {date}', fontsize=32)
+    plt.xlabel('Date', fontsize=32)
+    plt.ylabel('Daily infections', fontsize=32)
+    plt.legend(loc="upper left", fontsize=32)
+    plt.xticks(list(range(0, len(df), 50)), [df['date'].iloc[i] for i in range(0, len(df), 50)], rotation=10, fontsize=24)
     fig = plt.gcf()
     fig.set_size_inches(16,9)
 
@@ -71,6 +72,7 @@ def get_daily_infection_plot():
     tweet = Tweet()
     tweet.attach_text('Daily COVID-19 infections per day')
     tweet.attach_image(img_fpath)
+    return tweet
 
 if __name__ == '__main__':
     url = 'https://www.worldometers.info/coronavirus/country/us/'
