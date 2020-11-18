@@ -3,23 +3,57 @@ import datetime
 from typing import List
 
 class AutoTweet:
+    """Scheduled tasks to be performed and then tweeted"""
+
     def __init__(
             self,
-            weekday: List[str] = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
-            hour: List[int] = tuple(range(0,23)),
+            weekdays: List[str] = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
+            hours: List[int] = tuple(range(0,23)),
             end_of_month: bool = False
         ):
-        self.weekday = weekday
-        self.hour = hour
+        """
+        Parameters
+        ----------
+        weekdays : List[str]
+            Days of the week this task is performed
+        hours : List[int]
+            Hour of the day this task is performed
+        end_of_month : bool
+            Run only on end of the month
+        """
+        self.weekdays = weekdays
+        self.hours = hours
         self.end_of_month = end_of_month
 
-    def compare_datetime(self, today_datetime):
-        """Returns True if other_datetime matches the internal scheduled time"""
+    def scheduled_to_run(self, today_datetime):
+        """
+        Returns True if today_datetime matches the internal scheduled times
+
+        Parameters
+        ----------
+        today_datetime : datetime.datetime
+            The current datetime to be compared against this instances scheduled datetime
+
+        Returns
+        -------
+        bool
+            True if this task is scheduled for now else False
+        """
         today_weekday = today_datetime.strftime("%A")
         today_time = today_datetime.time()
         today_hour = self._round_hour(today_time)
 
-        return True if today_datetime in self.weekday and today_hour in self.hour else False
+        #Special case if it's the end of the month
+        if self.is_end_of_month(today_datetime) and today_hour in self.hours:
+            return True
+
+        return True if today_weekday in self.weekdays and today_hour in self.hours else False
+
+    def is_end_of_month(self, dt):
+        """Return True if the date is the end of the month"""
+        todays_month = dt.month
+        tomorrows_month = (dt + datetime.timedelta(days=1)).month
+        return True if tomorrows_month == todays_month else False
 
     def _round_hour(self, time):
         """Return rounded hour"""
