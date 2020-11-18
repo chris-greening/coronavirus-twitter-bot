@@ -24,9 +24,14 @@ class ScheduledTask:
         end_of_month : bool
             Run only on end of the month
         """
+        self.action = action
         self.weekdays = weekdays
         self.hours = hours
         self.end_of_month = end_of_month
+
+    def perform_action(self):
+        tweet = self.action()
+        self.api.update_status(tweet.tweet_text)
 
     def is_scheduled_to_run(self, today_datetime):
         """
