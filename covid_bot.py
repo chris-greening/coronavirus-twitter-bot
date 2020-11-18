@@ -1,6 +1,5 @@
 import datetime
 import os
-from collections import deque
 
 import tweepy
 
@@ -24,9 +23,13 @@ class CovidBot:
         ScheduledTask.connect_bot_api(self.api)
         self._build_task_queue(self.dt, self.scheduled_tasks)
 
+    def _execute_queue(self):
+        for task in self.task_queue:
+            task.execute()
+
     def _build_task_queue(self, dt, scheduled_tasks):
         """Get a queue of all tasks that are to be performed this run"""
-        self.task_queue = deque([task for task in scheduled_tasks if task.is_scheduled_to_run(dt)])
+        self.task_queue = tuple([task for task in scheduled_tasks if task.is_scheduled_to_run(dt)])
 
     def _connect_twitter_api(self):
         """Connect bot to the Twitter API"""
