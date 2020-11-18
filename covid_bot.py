@@ -22,6 +22,7 @@ class CovidBot:
         self._connect_twitter_api()
         ScheduledTask.connect_bot_api(self.api)
         self._build_task_queue(self.dt, self.scheduled_tasks)
+        self._execute_queue()
 
     def _execute_queue(self):
         for task in self.task_queue:
