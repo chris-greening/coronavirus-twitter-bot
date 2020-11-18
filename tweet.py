@@ -1,7 +1,7 @@
 class Tweet:
     def __init__(self):
-        self.image_filepath = None
-        self.tweet_text = None
+        self.image_filepath = ''
+        self.tweet_text = ''
 
     def attach_image(self, fpath: str):
         """Attach an image to the tweet"""
