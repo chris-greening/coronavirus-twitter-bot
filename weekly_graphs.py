@@ -52,10 +52,12 @@ def _create_plot(df):
     date = datetime.datetime.now().strftime('%m/%d/%Y')
     # x_recent = range(len(df)-7, len(df))
     plt.style.use("seaborn-darkgrid")
-    plt.bar(x, df['infections'], label="Daily infections", color="black", width=1)
+    plt.bar(x, df['infections'], label="Daily infections",
+            color="#222325", width=1)
     # plt.bar(x_recent, [df['infections'].iloc[i] for i in x_recent])
-    plt.plot(x, df['7 day rolling average'], label="7 day rolling average", color="red", linewidth=3)
-    plt.title(f'Daily COVID-19 infections as of {date}', fontsize=32)
+    plt.plot(x, df['7 day rolling average'],
+             label="7 day rolling average", color="#b70e00", linewidth=3)
+    plt.title(f'Daily COVID-19 cases as of {date}', fontsize=32)
     plt.xlabel('Date', fontsize=32)
     plt.ylabel('Daily infections', fontsize=32)
     plt.legend(loc="upper left", fontsize=32)
