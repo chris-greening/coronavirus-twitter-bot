@@ -28,7 +28,7 @@ class ScheduledTask:
         self.hours = hours
         self.end_of_month = end_of_month
 
-    def scheduled_to_run(self, today_datetime):
+    def is_scheduled_to_run(self, today_datetime):
         """
         Returns True if today_datetime matches the internal scheduled times
 
@@ -47,12 +47,12 @@ class ScheduledTask:
         today_hour = self._round_hour(today_time)
 
         #Special case if it's the end of the month
-        if self.is_end_of_month(today_datetime) and today_hour in self.hours:
+        if self._is_end_of_month(today_datetime) and today_hour in self.hours:
             return True
 
         return True if today_weekday in self.weekdays and today_hour in self.hours else False
 
-    def is_end_of_month(self, dt):
+    def _is_end_of_month(self, dt):
         """Return True if the date is the end of the month"""
         todays_month = dt.month
         tomorrows_month = (dt + datetime.timedelta(days=1)).month
