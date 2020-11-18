@@ -8,19 +8,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import tweepy 
 
-CONSUMER_KEY = os.environ.get("COVID19_TWITTER_CONSUMER_KEY")
-CONSUMER_SECRET = os.environ.get("COVID19_TWITTER_CONSUMER_SECRET")
-ACCESS_TOKEN = os.environ.get("COVID19_TWITTER_ACCESS_TOKEN")
-ACCESS_TOKEN_SECRET = os.environ.get("COVID19_TWITTER_ACCESS_TOKEN_SECRET")
-
-
-
-def return_api():
-    """Return the API"""
-    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-    auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-    api = tweepy.API(auth)
-    return api
+from tweet import Tweet
 
 def scrape_worldometers_data(url: str):
     """Return scraped Worldometers data"""
@@ -35,7 +23,7 @@ def construct_tweet(data) -> str:
         "United States - Daily Update\n"
         f"{todays_date}\n\n"
         f"🤢 Total Infections: {data.TotalCases:,} ({data.NewCases})\n"
-        f"⚰️ Total Deaths....: {data.TotalDeaths:,} (+{int(data.NewDeaths)})\n\n"
+        f"⚰️ Total Deaths....: {data.TotalDeaths:,} ({data.NewDeaths})\n\n"
         "Source: https://www.worldometers.info/coronavirus/country/us/\n"
         "Daily update tweeted everyday @8PM EST"
     )
@@ -62,14 +50,17 @@ def get_daily_infections_data(url: str):
     df = pd.DataFrame(data, columns=["date", "infections"])
     return df
 
-def tweet_daily_numbers(api, tweet_str):
-    api.update_status(tweet_str)
+def get_daily_update():
+    URL = "https://www.worldometers.info/coronavirus/country/us/"
+    data = scrape_worldometers_data(URL)
+    tweet_str = construct_tweet(data)
+
+    tweet = Tweet()
+    tweet.attach_text(tweet_str)
+    return tweet
 
 if __name__ == '__main__':
     URL = "https://www.worldometers.info/coronavirus/country/us/"
 
-    # api = return_api()
-    # data = scrape_worldometers_data(URL)
-    # tweet_str = construct_tweet(data)
-    # tweet_daily_numbers(api, tweet_str)
-    df = get_daily_infections_data(URL)
+    data = scrape_worldometers_data(URL)
+    tweet_str = construct_tweet(data)
