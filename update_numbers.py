@@ -23,7 +23,7 @@ def construct_tweet(data) -> str:
         "United States - Daily Update\n"
         f"{todays_date}\n\n"
         f"🤢 Total Infections: {data.TotalCases:,} ({data.NewCases})\n"
-        f"⚰️ Total Deaths....: {data.TotalDeaths:,} ({data.NewDeaths})\n\n"
+        f"⚰️ Total Deaths....: {int(data.TotalDeaths):,} ({data.NewDeaths})\n\n"
         "Source: https://www.worldometers.info/coronavirus/country/us/\n"
         "Daily update tweeted everyday @8PM EST"
     )
