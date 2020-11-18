@@ -13,7 +13,7 @@ SCHEDULED_TASK_REGISTRY = [
     ),
     ScheduledTask(
         task_function=get_daily_infection_plot,
-        weekdays=['Sunday'],
+        weekdays=["Sunday"],
         hours=[9]
     )
 ]
