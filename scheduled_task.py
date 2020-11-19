@@ -8,7 +8,7 @@ class ScheduledTask:
     def __init__(
             self,
             task_function,
-            weekdays: List[str] = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"),
+            weekdays: List[str] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
             hours: List[int] = tuple(range(0,23)),
             end_of_month: bool = False
         ):
@@ -55,16 +55,16 @@ class ScheduledTask:
         today_hour = self._round_hour(today_time)
 
         #Special case if it's the end of the month
-        if self._is_end_of_month(today_datetime) and today_hour in self.hours:
-            return True
-
+        if self.end_of_month:
+            if self._is_end_of_month(today_datetime) and today_hour in self.hours:
+                return True
         return True if today_weekday in self.weekdays and today_hour in self.hours else False
 
     def _is_end_of_month(self, dt):
         """Return True if the date is the end of the month"""
         todays_month = dt.month
         tomorrows_month = (dt + datetime.timedelta(days=1)).month
-        return True if tomorrows_month == todays_month else False
+        return True if tomorrows_month != todays_month else False
 
     def _round_hour(self, time):
         """Return rounded hour"""
