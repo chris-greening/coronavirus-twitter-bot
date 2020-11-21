@@ -13,7 +13,7 @@ def get_daily_infection_plot():
     url = 'https://www.worldometers.info/coronavirus/country/us/'
     df = _get_daily_infections_data(url)
     df = _prepare_data(df)
-    _create_plot(df)
+    _create_full_plot(df)
     img_fpath = _save_plot()
     tweet = Tweet()
     todays_date = datetime.datetime.now().strftime("%m/%d/%Y")
@@ -73,12 +73,13 @@ def _save_plot():
     plt.savefig(img_fpath)
     return img_fpath
 
-def _create_plot(df: pd.DataFrame):
+def _create_full_plot(df: pd.DataFrame):
     """Create plot from scraped DataFrame"""
     _draw_plots(df)
     _draw_plot_labels()
 
 def _draw_plots(df: pd.DataFrame):
+    """Draw the bar plot and line plot"""
     x = range(len(df))
     plt.style.use("seaborn-darkgrid")
     plt.bar(x, df['infections'], label="Daily infections",
@@ -102,5 +103,6 @@ if __name__ == '__main__':
     url = 'https://www.worldometers.info/coronavirus/country/us/'
     df = _get_daily_infections_data(url)
     df = _prepare_data(df)
-    _create_plot(df)
-    img_fpath = _save_plot()
+    _create_full_plot(df)
+    plt.show()
+    # img_fpath = _save_plot()
