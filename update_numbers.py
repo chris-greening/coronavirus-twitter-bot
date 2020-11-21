@@ -11,6 +11,7 @@ import tweepy
 from tweet import Tweet
 
 def get_daily_update():
+    """Return Tweet containing daily update on Infection and Death numbers"""
     URL = "https://www.worldometers.info/coronavirus/country/us/"
     data = _scrape_worldometers_data(URL)
     tweet_str = _construct_tweet(data)
