@@ -1,5 +1,6 @@
 import datetime
 import os
+from typing import List
 
 import tweepy
 
@@ -28,7 +29,7 @@ class CovidBot:
         for task in self.task_queue:
             task.execute()
 
-    def _build_task_queue(self, dt, scheduled_tasks):
+    def _build_task_queue(self, dt: datetime.datetime, scheduled_tasks: List[ScheduledTask]):
         """Get a queue of all tasks that are to be performed this run"""
         self.task_queue = tuple([task for task in scheduled_tasks if task.is_scheduled_to_run(dt)])
 
