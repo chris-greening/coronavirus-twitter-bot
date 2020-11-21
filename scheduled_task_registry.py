@@ -1,5 +1,5 @@
 """
-Registry of all the scheduled tasks to be performed by the bot
+Registry of all the scheduled tasks to be performed by the bot.
 """
 
 from scheduled_task import ScheduledTask
