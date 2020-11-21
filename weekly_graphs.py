@@ -26,7 +26,7 @@ def get_daily_infection_plot():
     tweet.attach_image(img_fpath)
     return tweet
 
-def _get_daily_infections_data(url: str):
+def _get_daily_infections_data(url: str) -> pd.DataFrame:
     """Get the daily infections data from URL and return a DataFrame"""
     r = requests.get(url)
     soup = BeautifulSoup(r.text)
