@@ -48,7 +48,8 @@ def _get_daily_infections_data(url: str):
     df = pd.DataFrame(data, columns=["date", "infections"])
     return df
 
-def _prepare_data(df):
+def _prepare_data(df: pd.DataFrame) -> pd.DataFrame:
+    """Return dataframe with processed data ready to be plotted"""
     df['date'] = df['date'].str.replace('"', '')
     df['7 day rolling average'] = df['infections'].rolling(window=7).mean()
     return df
