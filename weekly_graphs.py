@@ -28,9 +28,13 @@ def get_daily_infection_plot():
 
 def _get_daily_infections_data(url: str) -> pd.DataFrame:
     """Get the daily infections data from URL and return a DataFrame"""
+
+    #Parse all script tags from the URL's source code
     r = requests.get(url)
     soup = BeautifulSoup(r.text)
     script_tags = soup.find_all('script')
+
+    #Loop through contents of script tags and find the one w Daily New Cases
     outer_break = False
     for script in script_tags:
         for c in script.contents:
@@ -39,9 +43,12 @@ def _get_daily_infections_data(url: str) -> pd.DataFrame:
                 break
         if outer_break:
             break
+
+    #Parse JavaScript array out of script tag
     matches = re.findall('\[(.+?)\]', c)
     date = matches[0].split(',')
     new_infections = matches[1].split(',')
+
     data = list(zip(date, new_infections))
     data = [d for d in data if d[1] != 'null']
     data = [(d[0], int(d[1])) for d in data]
