@@ -18,6 +18,7 @@ def scrape_worldometers_data(url: str):
     return data.iloc[0]
 
 def construct_tweet(data) -> str:
+    """Return the Tweet text constructed from the scraped data"""
     todays_date = datetime.datetime.now().strftime("%A, %m/%d/%Y")
     tweet_str = (
         "United States - Daily Update\n"
@@ -28,27 +29,6 @@ def construct_tweet(data) -> str:
         "Daily update tweeted everyday @8PM EST"
     )
     return tweet_str
-
-def get_daily_infections_data(url: str):
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text)
-    script_tags = soup.find_all('script')
-    outer_break = False
-    for script in script_tags:
-        for c in script.contents:
-            if 'Daily New Cases' in c:
-                outer_break = True
-                break
-        if outer_break:
-            break
-    matches = re.findall('\[(.+?)\]', c)
-    date = matches[0].split(',')
-    new_infections = matches[1].split(',')
-    data = list(zip(date, new_infections))
-    data = [d for d in data if d[1] != 'null']
-    data = [(d[0], int(d[1])) for d in data]
-    df = pd.DataFrame(data, columns=["date", "infections"])
-    return df
 
 def get_daily_update():
     URL = "https://www.worldometers.info/coronavirus/country/us/"
