@@ -73,21 +73,27 @@ def _save_plot():
     plt.savefig(img_fpath)
     return img_fpath
 
-def _create_plot(df):
+def _create_plot(df: pd.DataFrame):
+    """Create plot from scraped DataFrame"""
     x = range(len(df))
-    date = datetime.datetime.now().strftime('%m/%d/%Y')
     plt.style.use("seaborn-darkgrid")
     plt.bar(x, df['infections'], label="Daily infections",
             color="black", width=1)
     plt.plot(x, df['7 day rolling average'],
              label="7 day rolling average", color="red", linewidth=4)
+    _draw_plot_metadata()
+
+def _draw_plot_metadata():
+    """Draw all metadata for the plot"""
+    date = datetime.datetime.now().strftime('%m/%d/%Y')
     plt.title(f'Daily COVID-19 cases as of {date}', fontsize=32)
     plt.xlabel('Date', fontsize=32)
     plt.ylabel('Daily infections', fontsize=32)
     plt.legend(loc="upper left", fontsize=32)
-    plt.xticks(list(range(0, len(df), 50)), [df['date'].iloc[i] for i in range(0, len(df), 50)], rotation=10, fontsize=24)
+    plt.xticks(list(range(0, len(df), 50)), [
+               df['date'].iloc[i] for i in range(0, len(df), 50)], rotation=10, fontsize=24)
     fig = plt.gcf()
-    fig.set_size_inches(16,9)
+    fig.set_size_inches(16, 9)
 
 if __name__ == '__main__':
     url = 'https://www.worldometers.info/coronavirus/country/us/'
