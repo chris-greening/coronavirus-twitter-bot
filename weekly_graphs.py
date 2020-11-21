@@ -9,12 +9,14 @@ import matplotlib.pyplot as plt
 
 from tweet import Tweet
 
-def get_daily_infection_plot():
+def get_daily_infection_plot() -> Tweet:
+    """Return Tweet object with attached image and text"""
     url = 'https://www.worldometers.info/coronavirus/country/us/'
     df = _get_daily_infections_data(url)
     df = _prepare_data(df)
     _create_full_plot(df)
     img_fpath = _save_plot()
+
     tweet = Tweet()
     todays_date = datetime.datetime.now().strftime("%m/%d/%Y")
     tweet_str = (
