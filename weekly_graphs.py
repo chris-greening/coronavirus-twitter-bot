@@ -27,7 +27,7 @@ def get_daily_infection_plot():
     return tweet
 
 def _get_daily_infections_data(url: str) -> pd.DataFrame:
-    """Get the daily infections data from URL and return a DataFrame"""
+    """Return a DataFrame containing scraped dates vs. daily infections"""
 
     #Parse all script tags from the URL's source code
     r = requests.get(url)
@@ -46,10 +46,11 @@ def _get_daily_infections_data(url: str) -> pd.DataFrame:
 
     #Parse JavaScript array out of script tag
     matches = re.findall('\[(.+?)\]', c)
-    date = matches[0].split(',')
+    dates = matches[0].split(',')
     new_infections = matches[1].split(',')
 
-    data = list(zip(date, new_infections))
+    #Zip data, remove null data points, and convert to pandas DataFrame
+    data = list(zip(dates, new_infections))
     data = [d for d in data if d[1] != 'null']
     data = [(d[0], int(d[1])) for d in data]
     df = pd.DataFrame(data, columns=["date", "infections"])
