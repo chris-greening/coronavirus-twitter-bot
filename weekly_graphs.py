@@ -9,6 +9,23 @@ import matplotlib.pyplot as plt
 
 from tweet import Tweet
 
+def get_daily_infection_plot():
+    url = 'https://www.worldometers.info/coronavirus/country/us/'
+    df = _get_daily_infections_data(url)
+    df = _prepare_data(df)
+    _create_plot(df)
+    img_fpath = _save_plot()
+    tweet = Tweet()
+    todays_date = datetime.datetime.now().strftime("%m/%d/%Y")
+    tweet_str = (
+        "United States - Infections per Day\n"
+        f"{todays_date}\n"
+        "https://www.worldometers.info/coronavirus/country/us/"
+    )
+    tweet.attach_text(tweet_str)
+    tweet.attach_image(img_fpath)
+    return tweet
+
 def _get_daily_infections_data(url: str):
     """Get the daily infections data from URL and return a DataFrame"""
     r = requests.get(url)
@@ -64,23 +81,6 @@ def _create_plot(df):
     plt.xticks(list(range(0, len(df), 50)), [df['date'].iloc[i] for i in range(0, len(df), 50)], rotation=10, fontsize=24)
     fig = plt.gcf()
     fig.set_size_inches(16,9)
-
-def get_daily_infection_plot():
-    url = 'https://www.worldometers.info/coronavirus/country/us/'
-    df = _get_daily_infections_data(url)
-    df = _prepare_data(df)
-    _create_plot(df)
-    img_fpath = _save_plot()
-    tweet = Tweet()
-    todays_date = datetime.datetime.now().strftime("%m/%d/%Y")
-    tweet_str = (
-        "United States - Infections per Day\n"
-        f"{todays_date}\n"
-        "https://www.worldometers.info/coronavirus/country/us/"
-    )
-    tweet.attach_text(tweet_str)
-    tweet.attach_image(img_fpath)
-    return tweet
 
 if __name__ == '__main__':
     url = 'https://www.worldometers.info/coronavirus/country/us/'
