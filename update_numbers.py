@@ -10,14 +10,14 @@ import tweepy
 
 from tweet import Tweet
 
-def scrape_worldometers_data(url: str):
+def _scrape_worldometers_data(url: str):
     """Return scraped Worldometers data"""
     r = requests.get(url)
     tables = pd.read_html(r.text)
     data = tables[0]
     return data.iloc[0]
 
-def construct_tweet(data) -> str:
+def _construct_tweet(data) -> str:
     """Return the Tweet text constructed from the scraped data"""
     todays_date = datetime.datetime.now().strftime("%A, %m/%d/%Y")
     tweet_str = (
@@ -32,8 +32,8 @@ def construct_tweet(data) -> str:
 
 def get_daily_update():
     URL = "https://www.worldometers.info/coronavirus/country/us/"
-    data = scrape_worldometers_data(URL)
-    tweet_str = construct_tweet(data)
+    data = _scrape_worldometers_data(URL)
+    tweet_str = _construct_tweet(data)
 
     tweet = Tweet()
     tweet.attach_text(tweet_str)
@@ -42,5 +42,5 @@ def get_daily_update():
 if __name__ == '__main__':
     URL = "https://www.worldometers.info/coronavirus/country/us/"
 
-    data = scrape_worldometers_data(URL)
-    tweet_str = construct_tweet(data)
+    data = _scrape_worldometers_data(URL)
+    tweet_str = _construct_tweet(data)
