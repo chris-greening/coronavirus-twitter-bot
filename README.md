@@ -1,6 +1,8 @@
 # Coronavirus Twitter Bot 
 
-<img src="https://github.com/chris-greening/coronavirus-twitter-bot/blob/master/media/long_logo.jpg">
+<p align="center">
+  <img src="https://github.com/chris-greening/coronavirus-twitter-bot/blob/master/media/long_logo.jpg">
+</p>
 
 ## [@SARS_CoV_2_News](https://twitter.com/SARS_CoV_2_News)
 
