@@ -78,7 +78,7 @@ def _save_plot():
 def _create_full_plot(df: pd.DataFrame):
     """Create plot from scraped DataFrame"""
     _draw_plots(df)
-    _draw_plot_labels()
+    _draw_plot_labels(df)
 
 def _draw_plots(df: pd.DataFrame):
     """Draw the bar plot and line plot"""
@@ -89,7 +89,7 @@ def _draw_plots(df: pd.DataFrame):
     plt.plot(x, df['7 day rolling average'],
              label="7 day rolling average", color="red", linewidth=4)
 
-def _draw_plot_labels():
+def _draw_plot_labels(df: pd.DataFrame):
     """Draw all labels for the plot"""
     date = datetime.datetime.now().strftime('%m/%d/%Y')
     plt.title(f'Daily COVID-19 cases as of {date}', fontsize=32)
