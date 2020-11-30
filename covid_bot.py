@@ -1,6 +1,7 @@
 import datetime
 import os
 from typing import List
+import logging
 
 import tweepy
 
@@ -45,4 +46,34 @@ class CovidBot:
         self.api = tweepy.API(auth)
 
 if __name__ == '__main__':
+    def log_fpath():
+        now_datetime = datetime.datetime.now()
+        now_date_str = now_datetime.strftime("%m%d%Y")
+        hour = round_hour(now_datetime)
+
+        fname = f"{now_date_str}-{hour}.log"
+        log_folder = os.path.abspath('log')
+        if not os.path.exists(log_folder):
+            os.mkdir(log_folder)
+        return os.path.join(log_folder, fname)
+
+    def round_hour(time):
+        """Return rounded hour"""
+        hour = time.hour + 1 if time.minute // 30 == 1 else time.hour
+        if hour == 24:
+            hour = 0
+        return hour
+
+    FORMAT = "[%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
+    logging.basicConfig(
+        # stream=sys.stdout,
+        format=FORMAT,
+        # filename=log_file,
+        level=logging.DEBUG,
+        handlers=[
+            logging.FileHandler(log_fpath()),
+            logging.StreamHandler()
+        ]
+    )
+
     covid_bot = CovidBot(debug=False)
