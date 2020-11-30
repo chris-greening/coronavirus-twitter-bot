@@ -72,7 +72,10 @@ class ScheduledTask:
 
     def _round_hour(self, time):
         """Return rounded hour"""
-        return time.hour + 1 if time.minute // 30 ==  1 else time.hour
+        hour = time.hour + 1 if time.minute // 30 ==  1 else time.hour
+        if hour == 24:
+            hour = 0
+        return hour
 
     @classmethod
     def connect_bot_api(cls, api):
