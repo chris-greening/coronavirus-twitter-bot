@@ -47,7 +47,10 @@ def _format_data_str(total: str, new: str) -> str:
     new_num_str = new_num_str.split('.')[0]
     new_num_str = new_num_str.replace("+", "")
     new_num_str = new_num_str.replace(",", "")
-    new_str = f"+{int(new_num_str):,}"
+    try:
+        new_str = f"+{int(new_num_str):,}"
+    except ValueError:
+        new_str = "+0"
 
     return f"{total_str} ({new_str})"
 
