@@ -20,14 +20,14 @@ def get_daily_update() -> Tweet:
     tweet.attach_text(tweet_str)
     return tweet
 
-def _scrape_worldometers_data(url: str):
+def _scrape_worldometers_data(url: str) -> pd.Series:
     """Return scraped Worldometers data"""
     r = requests.get(url)
     tables = pd.read_html(r.text)
     data = tables[0]
     return data.iloc[0]
 
-def _construct_tweet_str(data) -> str:
+def _construct_tweet_str(scraped_data: pd.Series) -> str:
     """Return the Tweet text constructed from the scraped data"""
     todays_date = datetime.datetime.now().strftime("%A, %m/%d/%Y")
     tweet_str = (
