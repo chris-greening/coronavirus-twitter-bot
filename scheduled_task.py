@@ -31,10 +31,14 @@ class ScheduledTask:
 
     def execute(self):
         tweet = self.task_function()
-        if tweet.image_filepath != '':
-            self.api.update_with_media(tweet.image_filepath, tweet.tweet_text)
+        if ScheduledTask.debug:
+            print(tweet)
+            print("-"*15)
         else:
-            self.api.update_status(tweet.tweet_text)
+            if tweet.image_filepath != '':
+                self.api.update_with_media(tweet.image_filepath, tweet.tweet_text)
+            else:
+                self.api.update_status(tweet.tweet_text)
 
     def is_scheduled_to_run(self, today_datetime):
         """
@@ -74,3 +78,7 @@ class ScheduledTask:
     def connect_bot_api(cls, api):
         """Connect AutoTweetTask to Twitter API"""
         cls.api = api
+
+    @classmethod
+    def set_debug(cls, debug: bool) -> None:
+        cls.debug = debug
