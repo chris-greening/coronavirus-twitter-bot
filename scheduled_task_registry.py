@@ -10,7 +10,7 @@ SCHEDULED_TASK_REGISTRY = [
     #Scrape daily infections/death data from Worldometers and tweet update
     ScheduledTask(
         task_function=get_daily_update,
-        hours=[0]
+        hours=[20]
     ),
     #Scrape graph from Worldometers and tweet the graph
     ScheduledTask(
