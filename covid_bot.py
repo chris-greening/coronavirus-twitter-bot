@@ -36,6 +36,7 @@ class CovidBot:
     def _build_task_queue(self, dt: datetime.datetime, scheduled_tasks: List[ScheduledTask]):
         """Get a queue of all tasks that are to be performed this run"""
         self.task_queue = tuple([task for task in scheduled_tasks if task.is_scheduled_to_run(dt)])
+        logging.info(f"Task queue built, {len(self.task_queue)} tasks scheduled")
 
     def _connect_twitter_api(self):
         """Connect bot to the Twitter API"""
@@ -44,6 +45,7 @@ class CovidBot:
         auth.set_access_token(CovidBot.ACCESS_TOKEN,
                                 CovidBot.ACCESS_TOKEN_SECRET)
         self.api = tweepy.API(auth)
+        logging.info("Twitter successfully authenticated")
 
 if __name__ == '__main__':
     def log_fpath():
@@ -71,9 +73,9 @@ if __name__ == '__main__':
         # filename=log_file,
         level=logging.DEBUG,
         handlers=[
-            logging.FileHandler(log_fpath()),
-            logging.StreamHandler()
+            logging.FileHandler(log_fpath(), encoding='utf8'),
+            # logging.StreamHandler()
         ]
     )
 
-    covid_bot = CovidBot(debug=False)
+    covid_bot = CovidBot(debug=True)

@@ -1,6 +1,8 @@
 import datetime
-
+import logging
 from typing import List
+
+logger = logging.getLogger(__name__)
 
 class ScheduledTask:
     """Scheduled tasks to be performed and then tweeted"""
@@ -39,6 +41,7 @@ class ScheduledTask:
                 self.api.update_with_media(tweet.image_filepath, tweet.tweet_text)
             else:
                 self.api.update_status(tweet.tweet_text)
+        logger.info(f"Tweeted:\n {tweet}")
 
     def is_scheduled_to_run(self, today_datetime):
         """
