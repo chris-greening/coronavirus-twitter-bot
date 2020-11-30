@@ -1,6 +1,7 @@
 import datetime
 import os
 from typing import List
+import json
 
 import tweepy
 
@@ -17,11 +18,14 @@ class CovidBot:
     ACCESS_TOKEN = os.environ.get("COVID19_TWITTER_ACCESS_TOKEN")
     ACCESS_TOKEN_SECRET = os.environ.get("COVID19_TWITTER_ACCESS_TOKEN_SECRET")
 
-    def __init__(self):
+    def __init__(self, debug):
+        self.debug = debug
+
         self.scheduled_tasks = SCHEDULED_TASK_REGISTRY
         self.dt = datetime.datetime.now()
         self._connect_twitter_api()
         ScheduledTask.connect_bot_api(self.api)
+        ScheduledTask.set_debug(debug=self.debug)
         self._build_task_queue(self.dt, self.scheduled_tasks)
         self._execute_queue()
 
@@ -42,5 +46,4 @@ class CovidBot:
         self.api = tweepy.API(auth)
 
 if __name__ == '__main__':
-    # DEBUG = True
-    covid_bot = CovidBot()
+    covid_bot = CovidBot(debug=True)
