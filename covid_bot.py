@@ -1,7 +1,6 @@
 import datetime
 import os
 from typing import List
-import json
 
 import tweepy
 
