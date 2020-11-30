@@ -9,3 +9,13 @@ class Tweet:
 
     def attach_text(self, tweet_text: str):
         self.tweet_text = tweet_text
+
+    def __repr__(self):
+        tweet_str = self.tweet_text if self.tweet_text != "" else "N/A"
+        img_str = self.image_filepath if self.image_filepath != "" else "N/A"
+
+        output_str = "Tweet\n-----\n"
+        output_str += f"{tweet_str}"
+        output_str += "\n-----\nPhoto\n-----\n"
+        output_str += f"{img_str}"
+        return output_str
